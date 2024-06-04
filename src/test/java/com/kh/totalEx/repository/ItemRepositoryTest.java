@@ -2,6 +2,7 @@ package com.kh.totalEx.repository;
 
 import com.kh.totalEx.constant.ItemSellStatus;
 import com.kh.totalEx.entity.Item;
+import com.kh.totalEx.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository;
+    @Autowired
+    MemberRepository memberRepository;
     @Test
     @DisplayName("상품 저장 테스트")
     public void createItemTest(){
@@ -70,4 +74,50 @@ class ItemRepositoryTest {
             System.out.println(e.toString());
         }
     }
+    //
+    @Test
+    @DisplayName("개별 회원 정보 조회")
+    public void createMemInfo(){
+        for(int i = 1; i <= 10; i++) {
+            Member member = new Member();
+            member.setEmail("dla@naver.com"+ i);
+            member.setPw("1234" + i);
+            member.setName("임정후"+ i);
+            member.setImage("/image/im.jpg"+ i);
+            member.setRegDate(LocalDateTime.now());
+            memberRepository.save(member);
+        }
+    }
+
+    @Test
+    @DisplayName("개별회원 조회")
+    public void findByEmailTest(){
+        this.createMemInfo();
+        Optional<Member> memberList = memberRepository.findByEmail("dla@naver.com1");
+        memberList.ifPresent(member -> System.out.println(member.getName()));
+    }
+    @Test
+    @DisplayName("전체 회원 조회")
+    public void findAllByEmailTest(){
+        this.createMemInfo();
+        List<Member> memberList = memberRepository.findAll();
+        for (Member e : memberList){
+        System.out.println(e.getEmail());
+        }
+    }
+    @Test
+    @DisplayName("가입여부 확인")
+    public void findByEmailTestCheckReg(){
+        this.createMemInfo();
+        Optional<Member> memberList = memberRepository.findByEmail("dla@naver.com1");
+        System.out.println(memberList.isPresent());
+    }
+    @Test
+    @DisplayName("로그인 체크")
+    public void findByEmailAndPwTest(){
+        this.createMemInfo();
+        List<Member> memberList = memberRepository.findByEmailAndPw("dla@naver.com10","123410");
+        System.out.println(memberList.toString());
+    }
+
 }

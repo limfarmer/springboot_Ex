@@ -11,16 +11,17 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
-@Table(name = "member")
-public class Member {
+@Table(name = "Board")
+public class Board {
     @Id
-    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String name;
-    private String pw;
-    @Column(unique = true)
-    private String email;
-    private String image;
+    private Long board_id;
+    private String title;
+    @Lob
+    @Column(length = 10000)
+    private String content;
+    @Lob
+    private String imagePath;
     private LocalDateTime regDate;
+
 }
