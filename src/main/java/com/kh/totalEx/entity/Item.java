@@ -3,6 +3,7 @@ package com.kh.totalEx.entity;
 import com.kh.totalEx.constant.ItemSellStatus;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity // JPA Entity 클래스임을 지정, Entity 클래스는 반드시 기본키를 가져야 함
+@ToString
 public class Item {
     @Id
     @Column(name = "item_id") // 해당키가 기본키임을 지정
@@ -17,7 +19,7 @@ public class Item {
     private Long id;           // 상품 코드
 
     @Column(nullable = false,length = 50)
-    private String itemNum;    // 상품명
+    private String itemNm;    // 상품명
     @Column(nullable = false)
     private int price;         // 가격
     @Column(nullable = false)
