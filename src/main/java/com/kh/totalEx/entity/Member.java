@@ -19,6 +19,7 @@ public class Member {
     private Long id;
     private String name;
     private String pw;
+    private String userId;
     @Column(unique = true)
     private String email;
     private String image;

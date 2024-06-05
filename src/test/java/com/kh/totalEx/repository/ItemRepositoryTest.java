@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +32,7 @@ class ItemRepositoryTest {
             Item item = new Item();
             item.setItemNm("테스트 상품" + i);
             item.setPrice(10000+i);
-            item.setItemDetail("테스트 상품 상세 설명 " + i);
+            item.setItemDetail("테스트 상품 상세 설명" + i);
             item.setItemSellStatus(ItemSellStatus.SELL);
             item.setStockNumber(100);
             item.setRegTime(LocalDateTime.now());
@@ -120,4 +122,22 @@ class ItemRepositoryTest {
         System.out.println(memberList.toString());
     }
 
+    @Test
+    @DisplayName("JPQl을 이용한 상품 조회 테스트")
+    public void findByItemDetailTest(){
+        this.createItemTest();
+        List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
+        for (Item e : itemList){
+            System.out.println(e.toString());
+        }
+    }
+    @Test
+    @DisplayName("nativeQuery 속성을 이용한 상품 조회 테스트")
+    public void findByItemDetailBy(){
+        this.createItemTest();
+        List<Item> itemList = itemRepository.nativeQuery("테스트 상품 상세 설명");
+        for (Item e : itemList){
+            System.out.println(e.toString());
+        }
+    }
 }
